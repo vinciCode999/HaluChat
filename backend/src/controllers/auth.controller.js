@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
-
+import bcrypt from "bcryptjs";
 export const signup = async(req, res) => {
   const { fullName, email, password } = req.body;
   try {
@@ -55,9 +55,52 @@ export const signup = async(req, res) => {
 };
 
 export const login = async(req, res) => {
-  res.end("Login route");
+  const { email, password } = req.body;
+
+  try {
+    if(!email || !password){
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if(!emailRegex.test(email)){
+      return res.status(400).json({ message: "Invalid email format" });
+    }
+
+
+    const user = await User.findOne({ email });
+    const isCorrectPassword = await user.matchPassword(password);
+
+    if(!isCorrectPassword){
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    if(!user){
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: "7d"});
+
+    res.cookie("jwt", token, { 
+      httpOnly: true, //prevent client-side JavaScript from accessing the cookie
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      sameSite: "strict", //prevent CSRF attacks
+      secure: process.env.NODE_ENV === "production" //use secure cookies in production
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Login successful",
+      user: user
+    })
+  } catch (error) {
+    console.log("Error in login function:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
 };
 
-export const logout = async(req, res) => {
-  res.end("Logout route");
+export const logout = (req, res) => {
+  res.clearCookie("jwt");
+  res.status(200).json({ message: "Logout successful" });
 };
