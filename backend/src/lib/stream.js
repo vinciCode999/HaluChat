@@ -5,7 +5,7 @@ const STREAM_API_KEY = process.env.STREAM_API_KEY;
 const STREAM_API_SECRET = process.env.STREAM_API_SECRET;
 
 if (!STREAM_API_KEY || !STREAM_API_SECRET) {
-  throw new Error("Missing Stream API credentials");
+  console.error("Missing Stream API credentials");
 }
 
 const streamClient = StreamChat.getInstance(STREAM_API_KEY, STREAM_API_SECRET);
@@ -25,6 +25,6 @@ export const generateStreamToken = (userId) => {
     const userIdString = userId.toString();
     return streamClient.createToken(userIdString);
   } catch (error) {
-    console.log("Error generating Stream token:", error.message);
+    console.error("Error generating Stream token:", error.message);
   }
 }
