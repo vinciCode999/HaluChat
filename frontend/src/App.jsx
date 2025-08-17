@@ -10,8 +10,22 @@ import {
 } from './pages'
 import { Routes, Route } from 'react-router'
 import { Toaster } from 'react-hot-toast';
-
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { axiosInstance } from './lib/axios';
 export default function App() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["auth"],
+    queryFn: async() => {
+      const response = await axiosInstance.get('/auth/me');
+      return response.data;
+    },
+    retry: false,
+  });
+
+
+  console.log(data);
+
   return (
     <div data-theme="night" className='h-screen'>
       <Routes>
