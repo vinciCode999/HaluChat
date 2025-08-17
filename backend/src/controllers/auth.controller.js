@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import { upsertStreamUser } from "../lib/stream.js";
 export const signup = async(req, res) => {
   const { fullName, email, password } = req.body;
   try {
@@ -32,7 +33,17 @@ export const signup = async(req, res) => {
       avatar: randomAvatar
     });
 
-    //TODO: CREATE THE USER IN STREAM AS WELL
+    try {
+      upsertStreamUser({
+      id: newUser._id.toString(),
+      name: newUser.fullName,
+      image: newUser.avatar || ""
+    })
+    console.log(`Stream user upserted for ${newUser.fullName}`);
+    } catch (error) {
+      console.error("Error upserting Stream user:", error);
+    }
+
 
     const token = jwt.sign({userId: newUser._id}, process.env.JWT_SECRET, {expiresIn: "7d"});
 
