@@ -5,3 +5,4 @@ export { Loginpage } from "./Loginpage";
 export { NotificationsPage } from "./NotificationsPage";
 export { OnboardingPage } from "./OnboardingPage";
 export { SignupPage } from "./SignupPage";
+export { FriendsPage } from "./FriendsPage";
