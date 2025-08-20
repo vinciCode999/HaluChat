@@ -14,6 +14,7 @@ import { Toaster } from 'react-hot-toast';
 import { PageLoader } from './components/PageLoader';
 import useAuthUser from './hooks/userAuthUser';
 import Layout from './components/Layout';
+import { ThemeSelector } from './components/ThemeSelector';
 
 export default function App() {
   const {isLoading, authUser} = useAuthUser();
@@ -52,12 +53,15 @@ export default function App() {
             ) : (
               <Navigate to="/login" />
             )
-          }
-       />
+        }/>
         <Route path="/call" element={ isAuthenticated ? <CallPage /> : <Navigate to="/login" />} />
         <Route path="/notifications" element={ isAuthenticated ? <NotificationsPage /> : <Navigate to="/login" />} />
         <Route path="/friends" element={ isAuthenticated ? <FriendsPage /> : <Navigate to="/login" />} />
-        <Route path="/chat" element={ isAuthenticated ? <ChatPage /> : <Navigate to="/login" />} />
+        <Route path="/chat" element={ isAuthenticated ? (
+          <Layout>
+            <ChatPage /> 
+          </Layout>
+        ): <Navigate to="/login" />} />
       </Routes>
       <Toaster />
     </div>
