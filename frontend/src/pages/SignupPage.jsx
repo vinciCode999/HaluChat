@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import HaluLogo from "/Halu-logo.png";
 import { Link } from "react-router";
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { signup } from "../lib/api";
+import { useSignup } from "../hooks/useSignup";
 
 export const SignupPage = () => {
   const [signupData, setSignupData] = useState({
@@ -11,14 +10,7 @@ export const SignupPage = () => {
     password: "",
   });
 
-  const queryClient = useQueryClient();
-
-  const {mutate:signupMutation, isPending, error} = useMutation({
-    mutationFn: signup,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["authUser"]});
-    }
-  });
+  const {signupMutation, isPending, error } = useSignup();
 
   const handleSignup = (e) => {
     e.preventDefault();

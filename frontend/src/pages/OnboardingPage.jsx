@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import useAuthUser from '../hooks/userAuthUser'
-import { QueryClient, useMutation } from '@tanstack/react-query';
-import { completeOnBoarding } from '../lib/api';
 import toast from 'react-hot-toast';
 import { CameraIcon, LoaderIcon, MapPinIcon, ShipWheelIcon, ShuffleIcon } from 'lucide-react';
-import axios from 'axios';
 import { LANGUAGES } from '../constants';
+import { useOnboarding } from '../hooks/useOnboarding';
+
 
 export const OnboardingPage = () => {
   const { authUser } = useAuthUser();
-  const queryClient = new QueryClient();
   
   const [ onBoardingData, setOnBoardingData ] = useState({
     fullName: authUser?.fullName || "",
@@ -20,17 +18,7 @@ export const OnboardingPage = () => {
     avatar: authUser?.avatar || "",
   })
 
-  const { mutate:onBoardingMutation, isPending } = useMutation({
-    mutationFn: completeOnBoarding,
-    onSuccess: () => {
-      toast.success("Onboarding completed successfully!");
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-    },
-    onError: (error) => {
-      toast.error(error.response.data.message);
-
-    }
-  })
+  const {onBoardingMutation, isPending, error} = useOnboarding();
 
   const handleSubmit = (e) => {
     e.preventDefault();
