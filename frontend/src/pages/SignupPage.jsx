@@ -26,7 +26,7 @@ export const SignupPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-base-200 to-base-100 relative overflow-hidden" data-theme="winter">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-base-200 to-base-100 relative overflow-hidden" data-theme="forest">
       {/* Decorative background blur circles */}
       <div className="absolute top-10 left-10 w-48 h-48 bg-primary/20 rounded-full "></div>
       <div className="absolute bottom-10 right-10 w-64 h-64 bg-secondary/20 rounded-full blur-3xl animate-pulse"></div>
