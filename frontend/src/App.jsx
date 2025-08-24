@@ -15,18 +15,20 @@ import { PageLoader } from './components/PageLoader';
 import useAuthUser from './hooks/userAuthUser';
 import Layout from './components/Layout';
 import { ThemeSelector } from './components/ThemeSelector';
+import { useThemeStore } from './store/useThemeStore';
 
 export default function App() {
   const {isLoading, authUser} = useAuthUser();
   const isAuthenticated = Boolean(authUser);
   const isOnBoarded = authUser?.isOnBoarded;
+  const { theme, setTheme } = useThemeStore();
 
 
 
   if (isLoading) return <PageLoader />;
 
   return (
-    <div data-theme="forest" className='h-screen'>
+    <div data-theme={ theme } className='h-screen'>
       <Routes>
         <Route path="/" element={ isAuthenticated && isOnBoarded?(
           <Layout showSidebar={true}>

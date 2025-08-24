@@ -163,7 +163,8 @@ export const THEMES = [
 ];
 
 export const LANGUAGES = [
-  "English",
+  "English (UK)",
+  "English (US)",
   "Chewa",
   "Tumbuka",
   "Yao",
@@ -178,10 +179,13 @@ export const LANGUAGES = [
   "French",
   "Spanish",
   "German",
+  "Chinese",
+  "Hindi",
 ];
 
 export const LANGUAGE_TO_FLAG = {
-  english: "gb",
+  "english (uk)": "gb",  // UK flag
+  "english (us)": "us",  // US flag
   chewa: "mw",
   tumbuka: "mw",
   yao: "mw",
@@ -190,10 +194,13 @@ export const LANGUAGE_TO_FLAG = {
   tonga: "mw",
   chindali: "mw",
   nkhonde: "mw",
-  swahili: "tz", // Tanzania flag as representative
-  portuguese: "mz", // Mozambique flag
-  shona: "zw", // Zimbabwe
+  swahili: "tz",     // Tanzania flag
+  portuguese: "mz",  // Mozambique flag
+  shona: "zw",       // Zimbabwe
   french: "fr",
   spanish: "es",
   german: "de",
+  chinese: "cn",     // China flag
+  hindi: "in",       // India flag
 };
+

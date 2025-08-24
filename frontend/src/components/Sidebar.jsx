@@ -76,19 +76,22 @@ const Sidebar = () => {
       {/* USER PROFILE SECTION */}
       <div className="p-4 border-t border-base-300 mt-auto">
         <div className="flex items-center gap-3">
-          <div className="avatar">
+          {/* Avatar with online indicator */}
+          <div className="avatar relative">
             <div className="w-10 rounded-full">
               <img src={authUser?.avatar} alt="User avatar" />
             </div>
+            {/* Green dot positioned bottom-right */}
+            <span className="absolute bottom-0 right-0 w-3 h-3 bg-success border-2 border-white rounded-full"></span>
           </div>
+
+          {/* User info */}
           <div className="flex-1">
             <p className="font-semibold text-sm">
               {authUser?.fullName}
             </p>
             <p className="text-xs text-success flex items-center gap-1">
-              <span className="size-2 rounded-full bg-success inline-block">
-                online
-              </span>
+              Online
             </p>
           </div>
         </div>
