@@ -33,7 +33,7 @@ export const getMyFriends = async(req, res) => {
 };
 
 
-export const sendFriendRequest = async(req, res) => {
+export const sendFriendRequest = async(req, res) => { 
   try {
     const myId = req.user.id;
 
@@ -121,9 +121,9 @@ export const getFriendRequests = async(req, res) => {
     }).populate('sender', 'fullName avatar learningLanguage nativeLanguage');
 
     const acceptedReqs = await FriendRequest.find({
-      recipient: req.user.id,
+      sender: req.user.id,
       status: "accepted"
-    }).populate('sender', 'fullName avatar');
+    }).populate("recipient", 'fullName avatar');
 
 
     res.status(200).json({incomingReqs, acceptedReqs});

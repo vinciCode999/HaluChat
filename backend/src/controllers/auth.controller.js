@@ -74,42 +74,41 @@ export const login = async(req, res) => {
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     if(!emailRegex.test(email)){
       return res.status(400).json({ message: "Invalid email format" });
     }
 
-
     const user = await User.findOne({ email });
-    const isCorrectPassword = await user.matchPassword(password);
-
-    if(!isCorrectPassword){
+    if(!user){
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    if(!user){
+    const isCorrectPassword = await user.matchPassword(password);
+    if(!isCorrectPassword){
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
     const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: "7d"});
 
     res.cookie("jwt", token, { 
-      httpOnly: true, //prevent client-side JavaScript from accessing the cookie
+      httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: "strict", //prevent CSRF attacks
-      secure: process.env.NODE_ENV === "production" //use secure cookies in production
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production"
     });
 
     res.status(201).json({
       success: true,
       message: "Login successful",
-      user: user
-    })
+      user
+    });
+
   } catch (error) {
     console.log("Error in login function:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 export const logout = (req, res) => {
   res.clearCookie("jwt");

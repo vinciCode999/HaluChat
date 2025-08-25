@@ -57,13 +57,20 @@ export default function App() {
             )
         }/>
         <Route path="/call" element={ isAuthenticated ? <CallPage /> : <Navigate to="/login" />} />
-        <Route path="/notifications" element={ isAuthenticated ? <NotificationsPage /> : <Navigate to="/login" />} />
+        <Route path="/notifications" element={ isAuthenticated && isOnBoarded ? (
+          <Layout showSidebar>
+            <NotificationsPage />
+          </Layout>
+        ) : (
+          <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+        )} />
         <Route path="/friends" element={ isAuthenticated ? <FriendsPage /> : <Navigate to="/login" />} />
-        <Route path="/chat" element={ isAuthenticated ? (
-          <Layout>
+        <Route path="/chat/:id" element={ isAuthenticated && isOnBoarded ? (
+          <Layout showSidebar={false}>
             <ChatPage /> 
           </Layout>
-        ): <Navigate to="/login" />} />
+        ): 
+        <Navigate to={!isAuthenticated? "/login" : "/onboarding"}/>} />
       </Routes>
       <Toaster />
     </div>
